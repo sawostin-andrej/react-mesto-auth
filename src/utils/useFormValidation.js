@@ -1,24 +1,24 @@
 import { useCallback, useState } from "react";
 
 export default function useFormValidation() {
-  const [values, setValues] = useState({}); //Стейт Управления значения ввода в поле
-  const [errors, setErrors] = useState({}); //Стейт управления ошибкой
+  const [value, setValue] = useState({}); //Стейт Управления значения ввода в поле
+  const [error, setError] = useState({}); //Стейт управления ошибкой
   const [isValid, setIsValid] = useState(false); //Cтейт управление кнопки валидности
   const [isInputValid, setIsInputValid] = useState({}); //Стейт управления красных подчеркиваний
 
-  function handleChange(evt) {
-    const name = evt.target.name;
-    const value = evt.target.value;
-    const validationMessage = evt.target.validationMessage;
-    const valid = evt.target.validity.valid;
-    const form = evt.target.form;
+  function handleChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    const validationMessage = event.target.validationMessage;
+    const valid = event.target.validity.valid;
+    const form = event.target.form;
 
-    setValues((oldValues) => {
-      return { ...oldValues, [name]: value };
+    setValue((oldValue) => {
+      return { ...oldValue, [name]: value };
     });
 
-    setErrors((oldErrors) => {
-      return { ...oldErrors, [name]: validationMessage };
+    setError((oldError) => {
+      return { ...oldError, [name]: validationMessage };
     });
 
     setIsInputValid((oldIsInputValid) => {
@@ -29,17 +29,17 @@ export default function useFormValidation() {
   }
 
   function reset(data = {}) {
-    setValues(data);
-    setErrors({});
+    setValue(data);
+    setError({});
     setIsValid(false);
     setIsInputValid({});
   }
 
-  const setValue = useCallback((name, value) => {
-    setValues((oldValues) => {
-      return { ...oldValues, [name]: value };
+  const setValues = useCallback((name, value) => {
+    setValue((oldValue) => {
+      return { ...oldValue, [name]: value };
     });
   }, []);
 
-  return [values, errors, isValid, isInputValid, handleChange, reset, setValue];
+  return [value, error, isValid, isInputValid, handleChange, reset, setValues];
 }

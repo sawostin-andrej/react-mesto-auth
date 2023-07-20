@@ -7,7 +7,7 @@ export default function AddPlacePopup({
   onAddPlace,
   isSending,
 }) {
-  const [values, errors, isValid, isInputValid, handleChange, reset] =
+  const [value, error, isValid, isInputValid, handleChange, reset] =
     useFormValidation();
 
   function resetAfterClose() {
@@ -17,7 +17,7 @@ export default function AddPlacePopup({
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddPlace({ name: values.name, link: values.link }, reset);
+    onAddPlace({ name: value.name, link: value.link }, reset);
   }
 
   return (
@@ -44,12 +44,12 @@ export default function AddPlacePopup({
         maxLength={30}
         required
         id="title-input"
-        value={values.name ? values.name : ""}
+        value={value.name ? value.name : ""}
         disabled={isSending}
         onChange={handleChange}
       />
       <span className="popup__error" id="title-input-error">
-        {errors.name}
+        {error.name}
       </span>
       <input
         className={`popup__input ${
@@ -62,12 +62,12 @@ export default function AddPlacePopup({
         placeholder="Ссылка на картинку"
         required
         id="link-input"
-        value={values.link ? values.link : ""}
+        value={value.link ? value.link : ""}
         disabled={isSending}
         onChange={handleChange}
       />
       <span className="popup__error" id="link-input-error">
-        {errors.link}
+        {error.link}
       </span>
     </PopupWithForm>
   );

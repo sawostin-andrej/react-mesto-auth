@@ -10,13 +10,13 @@ export default function EditProfilePopup({
   isSending,
 }) {
   const currentUser = useContext(CurrentUserContext);
-  const [values, errors, isValid, isInputValid, handleChange, reset, setValue] =
+  const [value, error, isValid, isInputValid, handleChange, reset, setValues] =
     useFormValidation();
 
   useEffect(() => {
-    setValue("title", currentUser.name);
-    setValue("subtitle", currentUser.about);
-  }, [currentUser, setValue]);
+    setValues("title", currentUser.name);
+    setValues("subtitle", currentUser.about);
+  }, [currentUser, setValues]);
 
   function resetAfterClose() {
     onClose();
@@ -25,7 +25,7 @@ export default function EditProfilePopup({
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateUser({ title: values.title, subtitle: values.subtitle }, reset);
+    onUpdateUser({ title: value.title, subtitle: value.subtitle }, reset);
   }
 
   return (
@@ -51,12 +51,12 @@ export default function EditProfilePopup({
         maxLength={40}
         required
         id="name-input"
-        value={values.title ? values.title : ""}
+        value={value.title ? value.title : ""}
         disabled={isSending}
         onChange={handleChange}
       />
       <span className="popup__error" id="name-input-error">
-        {errors.title}
+        {error.title}
       </span>
       <input
         className={`popup__input ${
@@ -71,12 +71,12 @@ export default function EditProfilePopup({
         maxLength={200}
         required
         id="text-input"
-        value={values.subtitle ? values.subtitle : ""}
+        value={value.subtitle ? value.subtitle : ""}
         disabled={isSending}
         onChange={handleChange}
       />
       <span className="popup__error" id="text-input-error">
-        {errors.subtitle}
+        {error.subtitle}
       </span>
     </PopupWithForm>
   );
