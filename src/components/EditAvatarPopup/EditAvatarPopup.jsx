@@ -9,7 +9,7 @@ export default function EditAvatarPopup({
   isSending,
 }) {
   const input = useRef();
-  const [value, error, isValid, isInputValid, handleChange, reset] =
+  const {values, errors, isValid, isInputValid, handleChange, reset} =
     useFormValidation();
 
   function resetAfterClose() {
@@ -44,12 +44,12 @@ export default function EditAvatarPopup({
         placeholder="Ссылка на картинку"
         required
         id="avatar-input"
-        value={value.avatar ? value.avatar : ""}
+        value={values.avatar ? values.avatar : ""}
         disabled={isSending}
         onChange={handleChange}
       />
       <span className="popup__error" id="avatar-input-error">
-        {error.avatar}
+        {errors.avatar}
       </span>
     </PopupWithForm>
   );

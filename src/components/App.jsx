@@ -104,18 +104,20 @@ function App() {
   
 
   useEffect(() => {
-    const tokenCheck = () => {
-      const token = localStorage.getItem('jwt');
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            navigate('/');
-            setUserEmail(res.data.email);
-          }
-        })
-        .catch((err) => console.error(`Ошибка авторизации при повторном входе ${err}`));
+    function tokenCheck() {
+      const jwt = localStorage.getItem('jwt')
+  
+      if(jwt) {
+        auth.getContent(jwt)
+          .then((res) => {
+            if(res) {
+              setLoggedIn(true)
+              setUserEmail(res.data.email)
+              navigate('/')
+            }
+          })
+          .catch((err) => console.log(err))
+      }
     }
     tokenCheck();
   }, [navigate]);

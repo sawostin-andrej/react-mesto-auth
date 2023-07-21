@@ -2,15 +2,15 @@ import React from "react";
 import useFormValidation from "../../utils/useFormValidation.js";
 
 export default function Login({ handleLogin }) {
-  const { value, error, reset, handleChange, isInputValid } =
+  const {values, errors, reset, handleChange, isInputValid } =
     useFormValidation();
 
   function handleSubmit(event) {
     event.preventDefault();
     handleLogin(
       {
-        email: value.email,
-        password: value.password,
+        email: values.email,
+        password: values.password,
       },
       reset
     );
@@ -29,13 +29,13 @@ export default function Login({ handleLogin }) {
           name="email"
           type="email"
           placeholder="Email"
-          value={value && value.email }
+          value={values.email ? values.email : ""}
           onChange={handleChange}
           minLength={2}
           maxLength={40}
           required
         />
-        <span className="popup__error">{error.email}</span>
+        <span className="popup__error">{errors.email}</span>
         <input
           className={`popup__input ${
             isInputValid.password === undefined || isInputValid.password
@@ -47,11 +47,11 @@ export default function Login({ handleLogin }) {
           placeholder="Пароль"
           minLength={2}
           maxLength={200}
-          value={value && value.email }
+          value={values.password ? values.password : ""}
           onChange={handleChange}
           required
         />
-        <span className="popup__error">{error.password}</span>
+        <span className="popup__error">{errors.password}</span>
         <button className="auth__submit" type="submit">
           Войти
         </button>

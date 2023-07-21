@@ -4,7 +4,7 @@
   cursor: pointer;
   font-weight: 400;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 22px; 
 }
 
 .header__auth:hover {

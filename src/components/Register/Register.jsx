@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import useFormValidation from "../../utils/useFormValidation.js";
 
 export default function Register({ handleRegister }) {
-  const { value, error, isInputValid, reset, handleChange } =
+  const { values, errors, isInputValid, reset, handleChange } =
     useFormValidation();
 
   function handleSubmit(event) {
     event.preventDefault();
     handleRegister(
       {
-        email: value.email,
-        password: value.password,
+        email: values.email,
+        password: values.password,
       },
       reset
     );
@@ -31,12 +31,12 @@ export default function Register({ handleRegister }) {
           type="email"
           placeholder="Email"
           onChange={handleChange}
-          value={value.email ? value.email : ""}
+          value={values.email ? values.email : ""}
           minLength={2}
           maxLength={40}
           required
         />
-        <span className="popup__error">{error.email}</span>
+        <span className="popup__error">{errors.email}</span>
         <input
           className={`popup__input ${
             isInputValid.password === undefined || isInputValid.password
@@ -50,9 +50,9 @@ export default function Register({ handleRegister }) {
           maxLength={200}
           required
           onChange={handleChange}
-          value={value.password ? value.password : ""}
+          value={values.password ? values.password : ""}
         />
-        <span className="popup__error">{error.password}</span>
+        <span className="popup__error">{errors.password}</span>
         <button className="auth__submit" type="submit">
           Зарегистрироваться
         </button>
