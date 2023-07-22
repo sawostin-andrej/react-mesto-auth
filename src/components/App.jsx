@@ -60,42 +60,33 @@ function App() {
 
   const closeAllPopups = useCallback(() => {
     setAllStatesForClosePopups();
-    document.removeEventListener("keydown", closePopupByEsc);
-  }, [setAllStatesForClosePopups, closePopupByEsc]);
+  }, [setAllStatesForClosePopups]);
 
   useEffect(() => {
-    return () => document.removeEventListener("keydown", closePopupByEsc);
-  }, [closePopupByEsc]);
-
-  function setEvantLisenerForDocument() {
     document.addEventListener("keydown", closePopupByEsc);
-  }
+    return () => document.removeEventListener("keydown", closePopupByEsc);
+  },[]);
 
   function handleDeletePopupClick(cardId) {
     setDeleteCardId(cardId);
     setDeletePopupOpen(true);
-    setEvantLisenerForDocument();
   }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-    setEvantLisenerForDocument();
   }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-    setEvantLisenerForDocument();
   }
 
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-    setEvantLisenerForDocument();
   }
 
   function handleCardClick(card) {
     setSelectedCard(card);
     setPopupImage(true);
-    setEvantLisenerForDocument();
   }
 
   useEffect(() => {
@@ -108,7 +99,7 @@ function App() {
         .catch((err) => console.log(err));
   }, [loggedIn]);
 
-  useEffect(() => {
+  useEffect((navigate) => {
     const tokenCheck = () => {
       const token = localStorage.getItem("jwt");
       auth
@@ -125,7 +116,7 @@ function App() {
         );
     };
     tokenCheck();
-  }, [navigate]);
+  }, []);
 
   function handleDeleteSubmit(evt) {
     evt.preventDefault();
