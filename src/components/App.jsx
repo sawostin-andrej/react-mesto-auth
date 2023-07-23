@@ -38,6 +38,8 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [userEmail, setUserEmail] = React.useState("");
+  const [isActiveHeader, setIsActiveHeader] = React.useState(false);
+
   const navigate = useNavigate();
 
   const setAllStatesForClosePopups = useCallback(() => {
@@ -55,7 +57,12 @@ function App() {
         setAllStatesForClosePopups();
       }
     },
-    [setAllStatesForClosePopups]
+    [
+      isEditProfilePopupOpen,
+      isAddPlacePopupOpen,
+      isEditAvatarPopupOpen,
+      popupImage,
+    ]
   );
 
   const closeAllPopups = useCallback(() => {
@@ -65,7 +72,7 @@ function App() {
   useEffect(() => {
     document.addEventListener("keydown", closePopupByEsc);
     return () => document.removeEventListener("keydown", closePopupByEsc);
-  },[]);
+  }, []);
 
   function handleDeletePopupClick(cardId) {
     setDeleteCardId(cardId);
@@ -187,6 +194,7 @@ function App() {
         setIsInfoTooltipOpen(true);
         setIsSuccess(true);
         navigate("/sign-in");
+        setIsActiveHeader(false);
       })
       .catch((err) => {
         setIsInfoTooltipOpen(true);
@@ -219,7 +227,13 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
-        <Header email={userEmail} loggedIn={loggedIn} onLogout={handleLogout} />
+        <Header
+          email={userEmail}
+          loggedIn={loggedIn}
+          onLogout={handleLogout}
+          setIsActiveHeader={setIsActiveHeader}
+          isActiveHeader={isActiveHeader}
+        />
 
         <Routes>
           <Route

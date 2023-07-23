@@ -1,13 +1,13 @@
-import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import logo from "../../images/logo.svg";
 
-export default function Header({ loggedIn, email, onLogout }) {
+export default function Header({ loggedIn, email, onLogout, isActiveHeader, setIsActiveHeader }) {
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+ 
   
   const handleAuthClick = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsActiveHeader(!isActiveHeader);
   };
 
   return (
@@ -23,10 +23,10 @@ export default function Header({ loggedIn, email, onLogout }) {
         {loggedIn ? (<Link className="header__auth header__auth_exit" to="/sign-in" onClick={onLogout}>Выйти</Link>
         ) : (
           <>
-            {isMenuOpen ? (
-              <Link className="header__auth" to="/sign-in" onClick={handleAuthClick}>{" "}Войти</Link>
+            {!isActiveHeader ? (
+              <Link className="header__auth" to="/sign-up" onClick={handleAuthClick}>Регистрация</Link>        
             ) : (
-              <Link className="header__auth" to="/sign-up" onClick={handleAuthClick}>Регистрация</Link>
+              <Link className="header__auth" to="/sign-in" onClick={handleAuthClick}>Войти</Link>
             )}
           </>
         )}
