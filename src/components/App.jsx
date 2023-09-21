@@ -98,7 +98,7 @@ function App() {
 
   useEffect(() => {
     loggedIn &&
-      Promise.all([api.getinfo(), api.getInitialCards()])
+      Promise.all([api.getinfo(localStorage.jwt), api.getInitialCards(localStorage.jwt)])
         .then(([dataUser, dataCard]) => {
           setCurrentUser(dataUser);
           setCards(dataCard);
@@ -106,7 +106,7 @@ function App() {
         .catch((err) => console.log(err));
   }, [loggedIn]);
 
-  useEffect((navigate) => {
+  useEffect(() => {
     const tokenCheck = () => {
       const token = localStorage.getItem("jwt");
       auth
@@ -123,13 +123,13 @@ function App() {
         );
     };
     tokenCheck();
-  }, []);
+  }, [navigate]);
 
   function handleDeleteSubmit(evt) {
     evt.preventDefault();
     setIsSending(true);
     api
-      .deleteCard(deleteCardId)
+      .deleteCard(deleteCardId, localStorage.jwt)
       .then(() => {
         setCards(
           cards.filter((card) => {
@@ -146,7 +146,7 @@ function App() {
   function handleUpdateUser(datauser, reset) {
     setIsSending(true);
     api
-      .setUserInfo(datauser)
+      .setUserInfo(datauser, localStorage.jwt)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -160,7 +160,7 @@ function App() {
   function handleUpdateAvatar(datauser, reset) {
     setIsSending(true);
     api
-      .setAvatar(datauser)
+      .setAvatar(datauser, localStorage.jwt)
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
@@ -175,7 +175,7 @@ function App() {
   function handleAddPlaceSubmit(dataCard, reset) {
     setIsSending(true);
     api
-      .addCard(dataCard)
+      .addCard(dataCard, localStorage.jwt)
       .then((res) => {
         setCards([res, ...cards]);
         closeAllPopups();
